@@ -1,0 +1,65 @@
+services:
+  - type: web
+    name: lounge-system
+    runtime: docker
+    plan: starter
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: Lounge System
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        sync: false
+      - key: APP_TIMEZONE
+        value: America/Sao_Paulo
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: lounge-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: lounge-postgres
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: lounge-postgres
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: lounge-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: lounge-postgres
+          property: password
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: FILESYSTEM_DISK
+        value: public
+      - key: BROADCAST_CONNECTION
+        value: log
+      - key: PAYMENT_GATEWAY
+        value: manual
+      - key: ALLOW_NEGATIVE_STOCK
+        value: "false"
+      - key: RUN_MIGRATIONS
+        value: "true"
+
+databases:
+  - name: lounge-postgres
+    plan: free
+    databaseName: lounge_system
+    user: lounge
